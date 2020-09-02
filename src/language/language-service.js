@@ -1,3 +1,5 @@
+const { LinkedList } = require("../utils/LinkedLists");
+
 const LanguageService = {
   getUsersLanguage(db, user_id) {
     return db
@@ -41,6 +43,19 @@ const LanguageService = {
           wordIncorrectCount: word[0].incorrect_count,
         };
       });
+  },
+
+  createLinkedList(arr, language) {
+    let list = new LinkedList();
+    let curr = arr.find((word) => word.id === language.head);
+
+    list.insertLast(curr);
+
+    while (curr.next !== null) {
+      curr = arr.find((word) => word.id === curr.next);
+      list.insertLast(curr);
+    }
+    return list;
   },
 };
 

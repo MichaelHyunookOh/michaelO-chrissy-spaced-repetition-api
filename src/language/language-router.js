@@ -1,4 +1,5 @@
 const express = require("express");
+const jsonParser = express.json();
 const LanguageService = require("./language-service");
 const { requireAuth } = require("../middleware/jwt-auth");
 
@@ -56,9 +57,74 @@ languageRouter.get("/head", async (req, res, next) => {
   }
 });
 
-languageRouter.post("/guess", async (req, res, next) => {
-  // implement me
-  res.send("implement me!");
+languageRouter.post("/guess", jsonParser, async (req, res, next) => {
+  const { guess } = req.body;
+  if (!guess) {
+    return res.status(400).send({ error: "Missing 'guess' in request body" });
+  }
+  try {
+    const words = await LanguageService.getLanguageWords(
+      req.app.get("db"),
+      req.language.id
+    );
+    let list = await LanguageService.createLinkedList(words, req.language);
+
+    let head = list.head;
+    let answer = list.head.value.translation;
+    let nextWord = head.next.value.original;
+    let correct_count = head.next.value.correct_count;
+    let memory_value = head.value.memory_value;
+
+    let isCorrect;
+
+    if (guess === list.head.value.translation) {
+      isCorrect = true;
+      req.language.total_score += 1;
+      head.value.correct_count += 1;
+      memory_value *= 2;
+      head.value.memory_value = memory_value;
+      list.head = head.next;
+      if (memory_value > 9) {
+        memory_value = 9;
+        head.value.memory_value = memory_value;
+      }
+      list.insertAt(head.value, memory_value);
+    } else {
+      isCorrect = false;
+      list.head.value.incorrect_count += 1;
+      head.value.memory_value = 1;
+      list.head = head.next;
+      list.insertAt(head.value, memory_value);
+    }
+
+    let results = {
+      answer: answer,
+      isCorrect: isCorrect,
+      nextWord: nextWord,
+      totalScore: req.language.total_score,
+      wordCorrectCount: correct_count,
+      wordIncorrectCount: list.head.value.incorrect_count,
+    };
+
+    let updateArray = [];
+    let curr = list.head;
+    while (curr.next !== null) {
+      updateArray = [...updateArray, curr.value];
+      curr = curr.next;
+    }
+    updateArray = [...updateArray, curr.value];
+    await LanguageService.insertWord(
+      req.app.get("db"),
+      updateArray,
+      req.language.id,
+      req.language.total_score
+    );
+
+    res.status(200).json(results);
+    next();
+  } catch (error) {
+    next(error);
+  }
 });
 
 module.exports = languageRouter;
