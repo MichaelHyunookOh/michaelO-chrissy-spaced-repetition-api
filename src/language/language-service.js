@@ -57,6 +57,27 @@ const LanguageService = {
     }
     return list;
   },
+
+  insertWord(db, words, language_id, total_score) {
+    return db.transaction(async (trx) => {
+      return Promise.all([
+        trx("language")
+          .where({ id: language_id })
+          .update({ total_score, head: words[0].id }),
+        ...words.map((word, index) => {
+          if (index + 1 >= words.length) {
+            word.next = null;
+            words[index - 1].next = word;
+          } else {
+            word.next = words[index + 1].id;
+          }
+          return trx("word")
+            .where({ id: word.id })
+            .update({ ...word });
+        }),
+      ]);
+    });
+  },
 };
 
 module.exports = LanguageService;
