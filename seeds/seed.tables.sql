@@ -23,7 +23,7 @@ INSERT INTO "word" ("id", "language_id", "original", "translation", "next")
 VALUES
   (1, 1, 'frikfrak', 'feather', 2),
   (2, 1, 'jabber', 'mouth', 3),
-  (3, 1, 'wikket', 'anyone who is not Hozen', 4),
+  (3, 1, 'wikket', 'anyone who is not hozen', 4),
   (4, 1, 'nib', 'loot', 5),
   (5, 1, 'spooky-dooks', 'constipation', 6),
   (6, 1, 'ookapalooza', 'the greatest party of all time', 7),

@@ -55,7 +55,7 @@ const UserService = {
       const languageWords = [
         ["frikfrak", "feather", 2],
         ["jabber", "mouth", 3],
-        ["wikket", "anyone who is not Hozen", 4],
+        ["wikket", "anyone who is not hozen", 4],
         ["nib", "loot", 5],
         ["spooky-dooks", "constipation", 6],
         ["ookapalooza", "the greatest party of all time", 7],
