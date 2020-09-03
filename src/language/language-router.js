@@ -87,10 +87,6 @@ languageRouter
         memory_value *= 2;
         head.value.memory_value = memory_value;
         list.head = head.next;
-        if (memory_value > 9) {
-          memory_value = 9;
-          head.value.memory_value = memory_value;
-        }
         list.insertAt(head.value, memory_value);
       } else {
         isCorrect = false;
