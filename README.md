@@ -1,4 +1,43 @@
-# Spaced repetition API!
+# A Wikket's Guide to Hozen API!
+
+Live Link: https://guide-to-hozen.vercel.app/
+Client Repo: https://github.com/thinkful-ei-gecko/Yulia-JamesL-Spaced-Repetition-Client
+
+## API Endpoints
+
+### User Endpoints
+
+#### Post
+
+/api/user
+
+Register new account with name, username, and password
+
+### Auth Endpoints
+
+#### Post
+
+/api/auth/token
+
+Users with registered account can log in with username and password
+
+### Language Endpoints
+
+#### Get
+
+/api/language
+
+Shows scores and words to learn on dashboard
+
+/api/language/head
+
+Gets the next word to learn
+
+#### Post
+
+/api/language/guess
+
+Posts the user's guess
 
 ## Local dev setup
 
@@ -27,7 +66,7 @@ For tests involving time to run properly, configure your Postgres database to ru
 1. Locate the `postgresql.conf` file for your Postgres installation.
    1. E.g. for an OS X, Homebrew install: `/usr/local/var/postgres/postgresql.conf`
    2. E.g. on Windows, _maybe_: `C:\Program Files\PostgreSQL\11.2\data\postgresql.conf`
-   3. E.g  on Ubuntu 18.04 probably: '/etc/postgresql/10/main/postgresql.conf'
+   3. E.g on Ubuntu 18.04 probably: '/etc/postgresql/10/main/postgresql.conf'
 2. Find the `timezone` line and set it to `UTC`:
 
 ```conf
