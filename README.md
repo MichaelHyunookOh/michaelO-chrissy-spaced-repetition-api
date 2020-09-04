@@ -2,7 +2,7 @@
 
 Live Link: https://guide-to-hozen.vercel.app/
 
-Client Repo: https://github.com/thinkful-ei-gecko/Yulia-JamesL-Spaced-Repetition-Client
+Client Repo: https://github.com/charmonica/michaelO-chrissy-spaced-repetition
 
 ## API Endpoints
 
